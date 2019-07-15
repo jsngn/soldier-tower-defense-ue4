@@ -12,7 +12,7 @@ AEnemySoldier::AEnemySoldier()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
 }
 
 // Called when the game starts or when spawned
@@ -20,8 +20,15 @@ void AEnemySoldier::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// Fills array of waypoints; this array is not ordered
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWaypoint::StaticClass(), Waypoints);
+	
+	CurrentWaypoint = 1;
 	MoveToWaypoints();
+
+	FullHealth = 200.0f;
+	CurrentHealth = FullHealth;
+	CurrentHealthPercentage = 0.3f;
 }
 
 // Called every frame
@@ -41,25 +48,53 @@ void AEnemySoldier::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 void AEnemySoldier::MoveToWaypoints() {
 	AEnemyAIController* EnemyAIController = Cast<AEnemyAIController>(GetController());
 
-	if (EnemyAIController) {
+	if (EnemyAIController) { // Only proceed if cast is successful
 		
-		if (CurrentWaypoint <= Waypoints.Num()) {
+		if (CurrentWaypoint <= Waypoints.Num()) { // Only proceed if current waypoint is still less than length of waypoints array (total available waypoints)
 			
-			for (AActor* Waypoint : Waypoints) {
+			for (AActor* Waypoint : Waypoints) { // Iterate through the entire waypoints array
 				AWaypoint* WaypointIndex = Cast<AWaypoint>(Waypoint);
 				
-				if (WaypointIndex) {
+				if (WaypointIndex) { // Only proceed if waypoint casting is successful
 
-					if (WaypointIndex->GetWaypointOrder() == CurrentWaypoint) {
+					if (WaypointIndex->GetWaypointOrder() == CurrentWaypoint) { // If the order of the waypoint we're looking at equals the current waypoint number
 						
-						EnemyAIController->MoveToActor(WaypointIndex, 1.f);
+						EnemyAIController->MoveToActor(WaypointIndex, 1.f); // then move to that waypoint
 						
-						CurrentWaypoint++;
+						CurrentWaypoint++; // Adds 1 to current waypoint for next time
 						
-						break;
+						break; // No need to loop anymore if enemy moved
 					}
 				}
 			}
 		}
 	}
+}
+
+float AEnemySoldier::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser)
+{
+	// Base class function returns the amount of damage to apply  
+	const float DamageAmount = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+	
+	if (DamageAmount > 0.f){
+		CurrentHealth -= DamageAmount; // Applies damage only if there's any damage
+		UpdateCurrentHealthPercentage(); // No need to update this every tick because damage isn't guaranteed every tick
+		
+		// If no health left, kill the enemy  
+		if (CurrentHealth <= 0.f)
+		{
+			Death();
+		}
+	}
+
+	return DamageAmount; // Handled by garbage collection
+}
+
+float AEnemySoldier::UpdateCurrentHealthPercentage() {
+	CurrentHealthPercentage = float(CurrentHealth) / float(FullHealth);
+	return CurrentHealthPercentage;
+}
+
+void AEnemySoldier::Death_Implementation() {
+	Destroy();
 }

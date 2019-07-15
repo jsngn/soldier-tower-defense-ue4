@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Components/TimelineComponent.h"
+#include "Components/BoxComponent.h"
 #include "EnemySoldier.generated.h"
 
 UCLASS()
@@ -26,12 +28,39 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	// Moves character to all waypoints sequentially
 	void MoveToWaypoints();
 
+	// Max health of the enemy
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Health")
+	float FullHealth;
+
+	// Current health
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Health")
+	float CurrentHealth;
+
+	// Current health as a percentage (for the heathbar widget)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Health")
+	float CurrentHealthPercentage;
+
+	// Updates the health percentage using current heath value
+	UFUNCTION()
+	float UpdateCurrentHealthPercentage();
+
+	// Handles receiving damage
+	UFUNCTION()
+	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
+	// C++ implementation just destroys enemy, but do visual effects if necessary
+	UFUNCTION(BlueprintNativeEvent, Category = "Health")
+	void Death();
+
 private:
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	// Waypoint which the character is currently at; must be set to 1 initially
+	UPROPERTY(VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
 	int CurrentWaypoint;
 
+	// Array of waypoints
 	UPROPERTY()
 	TArray<AActor*> Waypoints;
 };

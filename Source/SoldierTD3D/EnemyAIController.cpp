@@ -6,14 +6,10 @@
 #include "EnemySoldier.h"
 #include "Engine/World.h"
 
-void AEnemyAIController::BeginPlay() {
-	Super::BeginPlay();
-
-}
-
 void AEnemyAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) {
 	AEnemySoldier* EnemySoldier = Cast<AEnemySoldier>(GetPawn());
 
+	// Calls function to move character to all (remaining) waypoints in array when a move action is done
 	if (EnemySoldier) {
 		EnemySoldier->MoveToWaypoints();
 	}
