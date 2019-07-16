@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+#include "EnemySoldier.h"
 #include "EnemyAIController.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 #include "Waypoint.h"
-#include "EnemySoldier.h"
 
 // Sets default values
 AEnemySoldier::AEnemySoldier()
