@@ -4,6 +4,7 @@
 #include "TurretAIController.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "EnemySoldier.h"
 #include "Perception/AISenseConfig_Sight.h"
 
@@ -11,13 +12,14 @@ ATurretAIController::ATurretAIController() {
 	
 	PrimaryActorTick.bCanEverTick = true;
 
-	AISightRadius = 500.0f;
+	// Can change these to change turret's perception ability
+	AISightRadius = 400.0f;
 	AILoseSightRadius = AISightRadius + 1.0f;
-	AISightAge = 5.0f;
-	AIFieldOfView = 180.0f;
+	AISightAge = 7.0f;
+	AIFieldOfView = 47.0f;
 
-	SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("Sight Config"));
-	SetPerceptionComponent(*CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Component")));
+	SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("SightConfig"));
+	SetPerceptionComponent(*CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("PerceptionComponent")));
 
 	SightConfig->SightRadius = AISightRadius;
 	SightConfig->LoseSightRadius = AILoseSightRadius;
@@ -29,62 +31,53 @@ ATurretAIController::ATurretAIController() {
 	SightConfig->DetectionByAffiliation.bDetectNeutrals = true;
 
 	GetPerceptionComponent()->SetDominantSense(*SightConfig->GetSenseImplementation());
-	GetPerceptionComponent()->OnPerceptionUpdated.AddDynamic(this, &ATurretAIController::OnPawnDetected);
 	GetPerceptionComponent()->ConfigureSense(*SightConfig);
 
-	bIsEnemyDetected = false;
 }
 
 void ATurretAIController::BeginPlay() {
 	Super::BeginPlay();
 	
-	if (GetPerceptionComponent()) {
+	// Debugging only
+	/*if (GetPerceptionComponent()) {
 		UE_LOG(LogTemp, Warning, TEXT("AI System Set"));
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("AI Error"));
-	}
+	}*/
 
-}
-
-void ATurretAIController::OnPossess(APawn* InPawn) {
-	Super::OnPossess(InPawn);
-
-	if (bIsEnemyDetected) {
-		AEnemySoldier* Enemy = Cast<AEnemySoldier>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	}
 }
 
 void ATurretAIController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
-}
 
-FRotator ATurretAIController::GetControlRotation() const {
-	if (!GetPawn()) {
-		return FRotator(0.0f, 0.0f, 0.0f);
-	}
-
-	return FRotator(0.0f, GetPawn()->GetActorRotation().Yaw, 0.0f);
-}
-
-// Called every time enemy enters field of view or exits field of view
-void ATurretAIController::OnPawnDetected(const TArray<AActor*>& DetectedEnemies) { // Array contains ONLY the actor that triggered the event
+	// Don't move these
 	TArray<float> DistanceArray;
+	TArray<AActor*> OutActors;
+	TArray<AActor*>& OutActorsRef = OutActors;
 
-	for (size_t i = 0; i < DetectedEnemies.Num(); i++) {
-		DistanceArray.Emplace(GetPawn()->GetDistanceTo(DetectedEnemies[i]));
+	// Gets all enemies in FOV of turret and puts them in OutActors array
+	GetPerceptionComponent()->GetCurrentlyPerceivedActors(*SightConfig->GetSenseImplementation(), OutActorsRef);
+
+	// If any enemy present
+	if (OutActors.Num() > 0) {
+		// Build an array of distances between turret and each enemy in FOV
+		for (size_t i = 0; i < OutActors.Num(); i++) {
+			DistanceArray.Emplace(GetPawn()->GetDistanceTo(OutActors[i]));
+		}
+
+		// Sort so the smallest is at 0th position
+		DistanceArray.Sort();
+
+		// Aim turret at the closest enemy
+		for (size_t i = 0; i < OutActors.Num(); i++) {
+			if ((GetPawn()->GetDistanceTo(OutActors[i])) == DistanceArray[0]) {
+				FVector EnemyLoc = OutActors[i]->GetActorLocation();
+				this->SetFocalPoint(EnemyLoc);
+			}
+		}
+	
+		// Remove all elements for next tick
+		OutActors.Empty();
 	}
-
-	for (size_t i = 0; i < DistanceArray.Num(); i++) {
-		UE_LOG(LogTemp, Warning, TEXT("Distance: %f"), DistanceArray[i]);
-	}
-
-	DistanceArray.Sort();
-	UE_LOG(LogTemp, Warning, TEXT("Smallest distance in current array: %f"), DistanceArray[0]);
-
-	DistanceArray.Empty();
-
-	UE_LOG(LogTemp, Warning, TEXT("------------------"));
-
-	bIsEnemyDetected = true;
 }
