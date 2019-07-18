@@ -28,7 +28,7 @@ void AEnemySoldier::BeginPlay()
 
 	FullHealth = 200.0f;
 	CurrentHealth = FullHealth;
-	CurrentHealthPercentage = 0.3f;
+	CurrentHealthPercentage = 1.0f;
 }
 
 // Called every frame
@@ -71,23 +71,18 @@ void AEnemySoldier::MoveToWaypoints() {
 	}
 }
 
-float AEnemySoldier::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser)
-{
-	// Base class function returns the amount of damage to apply  
-	const float DamageAmount = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-	
-	if (DamageAmount > 0.f){
+void AEnemySoldier::Attacked(float DamageAmount) {
+
+	if (DamageAmount > 0.f) {
 		CurrentHealth -= DamageAmount; // Applies damage only if there's any damage
 		UpdateCurrentHealthPercentage(); // No need to update this every tick because damage isn't guaranteed every tick
-		
+		UE_LOG(LogTemp, Warning, TEXT("Health: %f"), CurrentHealth);
 		// If no health left, kill the enemy  
 		if (CurrentHealth <= 0.f)
 		{
 			Death();
 		}
 	}
-
-	return DamageAmount; // Handled by garbage collection
 }
 
 float AEnemySoldier::UpdateCurrentHealthPercentage() {

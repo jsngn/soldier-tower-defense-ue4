@@ -26,4 +26,17 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void ShouldShoot();
+
+	// Select the blueprint/C++ class for the projectile that will be fired from turret
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turret")
+	TSubclassOf<AActor> Projectile;
+
+	// Whether turret should be shooting
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turret")
+	bool bShoot;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turret")
+	USceneComponent* DummyMuzzle;
+
 };

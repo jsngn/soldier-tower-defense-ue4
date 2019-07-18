@@ -49,7 +49,7 @@ public:
 
 	// Handles receiving damage
 	UFUNCTION()
-	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	void Attacked(float DamageAmount);
 
 	// C++ implementation just destroys enemy, but do visual effects if necessary
 	UFUNCTION(BlueprintNativeEvent, Category = "Health")

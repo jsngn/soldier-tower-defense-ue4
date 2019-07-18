@@ -7,13 +7,14 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "EnemySoldier.h"
 #include "Perception/AISenseConfig_Sight.h"
+#include "Turret.h"
 
 ATurretAIController::ATurretAIController() {
 	
 	PrimaryActorTick.bCanEverTick = true;
 
 	// Can change these to change turret's perception ability
-	AISightRadius = 400.0f;
+	AISightRadius = 410.0f;
 	AILoseSightRadius = AISightRadius + 1.0f;
 	AISightAge = 7.0f;
 	AIFieldOfView = 47.0f;
@@ -37,7 +38,7 @@ ATurretAIController::ATurretAIController() {
 
 void ATurretAIController::BeginPlay() {
 	Super::BeginPlay();
-	
+
 	// Debugging only
 	/*if (GetPerceptionComponent()) {
 		UE_LOG(LogTemp, Warning, TEXT("AI System Set"));
@@ -55,29 +56,48 @@ void ATurretAIController::Tick(float DeltaTime) {
 	TArray<float> DistanceArray;
 	TArray<AActor*> OutActors;
 	TArray<AActor*>& OutActorsRef = OutActors;
+	TArray<AEnemySoldier*> EnemiesDetected;
 
 	// Gets all enemies in FOV of turret and puts them in OutActors array
 	GetPerceptionComponent()->GetCurrentlyPerceivedActors(*SightConfig->GetSenseImplementation(), OutActorsRef);
 
 	// If any enemy present
 	if (OutActors.Num() > 0) {
-		// Build an array of distances between turret and each enemy in FOV
+		// Filter to get only enemies
 		for (size_t i = 0; i < OutActors.Num(); i++) {
-			DistanceArray.Emplace(GetPawn()->GetDistanceTo(OutActors[i]));
+			AEnemySoldier* Enemy = Cast<AEnemySoldier>(OutActors[i]);
+			if (Enemy) {
+				EnemiesDetected.Emplace(Enemy);
+			}
+		}
+
+		// Build an array of distances between turret and each enemy in FOV
+		for (size_t i = 0; i < EnemiesDetected.Num(); i++) {
+			DistanceArray.Emplace(GetPawn()->GetDistanceTo(EnemiesDetected[i]));
 		}
 
 		// Sort so the smallest is at 0th position
 		DistanceArray.Sort();
 
 		// Aim turret at the closest enemy
-		for (size_t i = 0; i < OutActors.Num(); i++) {
-			if ((GetPawn()->GetDistanceTo(OutActors[i])) == DistanceArray[0]) {
-				FVector EnemyLoc = OutActors[i]->GetActorLocation();
-				this->SetFocalPoint(EnemyLoc);
+		for (size_t i = 0; i < EnemiesDetected.Num(); i++) {
+			
+			if ((GetPawn()->GetDistanceTo(EnemiesDetected[i])) == DistanceArray[0]) {
+				FVector EnemyLoc = EnemiesDetected[i]->GetActorLocation();
+
+				if (ATurret * Turret = Cast<ATurret>(GetPawn())) {
+
+					UE_LOG(LogTemp, Warning, TEXT("Turret casting in AI Controller successful 1"));
+					this->SetFocalPoint(EnemyLoc);
+					UE_LOG(LogTemp, Warning, TEXT("Turret casting in AI Controller successful 2"));
+					Turret->ShouldShoot();
+				}
 			}
 		}
 	
 		// Remove all elements for next tick
 		OutActors.Empty();
+		EnemiesDetected.Empty();
+		DistanceArray.Empty();
 	}
 }
