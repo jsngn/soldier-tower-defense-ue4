@@ -23,12 +23,14 @@ void AEnemySoldier::BeginPlay()
 	// Fills array of waypoints; this array is not ordered
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWaypoint::StaticClass(), Waypoints);
 	
+	// Determines movement
 	CurrentWaypoint = 1;
 	MoveToWaypoints();
-
+	
+	// Determines initial health
 	FullHealth = 200.0f;
 	CurrentHealth = FullHealth;
-	CurrentHealthPercentage = 1.0f;
+	CurrentHealthPercentage = float(CurrentHealth) / float(FullHealth);
 }
 
 // Called every frame
@@ -75,19 +77,15 @@ void AEnemySoldier::Attacked(float DamageAmount) {
 
 	if (DamageAmount > 0.f) {
 		CurrentHealth -= DamageAmount; // Applies damage only if there's any damage
-		UpdateCurrentHealthPercentage(); // No need to update this every tick because damage isn't guaranteed every tick
+		CurrentHealthPercentage = float(CurrentHealth) / float(FullHealth); // No need to update this every tick because damage isn't guaranteed every tick
 		UE_LOG(LogTemp, Warning, TEXT("Health: %f"), CurrentHealth);
 		// If no health left, kill the enemy  
 		if (CurrentHealth <= 0.f)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("Death registered"));
 			Death();
 		}
 	}
-}
-
-float AEnemySoldier::UpdateCurrentHealthPercentage() {
-	CurrentHealthPercentage = float(CurrentHealth) / float(FullHealth);
-	return CurrentHealthPercentage;
 }
 
 void AEnemySoldier::Death_Implementation() {

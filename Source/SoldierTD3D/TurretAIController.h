@@ -36,5 +36,6 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Turret AI")
 	class UAISenseConfig_Sight* SightConfig;
-
+	
+	bool bShouldShoot;
 };

@@ -39,6 +39,8 @@ ATurretAIController::ATurretAIController() {
 void ATurretAIController::BeginPlay() {
 	Super::BeginPlay();
 
+	bShouldShoot = false;
+
 	// Debugging only
 	/*if (GetPerceptionComponent()) {
 		UE_LOG(LogTemp, Warning, TEXT("AI System Set"));
@@ -83,14 +85,18 @@ void ATurretAIController::Tick(float DeltaTime) {
 		for (size_t i = 0; i < EnemiesDetected.Num(); i++) {
 			
 			if ((GetPawn()->GetDistanceTo(EnemiesDetected[i])) == DistanceArray[0]) {
-				FVector EnemyLoc = EnemiesDetected[i]->GetActorLocation();
 
-				if (ATurret * Turret = Cast<ATurret>(GetPawn())) {
-
-					UE_LOG(LogTemp, Warning, TEXT("Turret casting in AI Controller successful 1"));
+				if (ATurret* Turret = Cast<ATurret>(GetPawn())) {
+					FVector EnemyLoc = EnemiesDetected[i]->GetActorLocation();
 					this->SetFocalPoint(EnemyLoc);
-					UE_LOG(LogTemp, Warning, TEXT("Turret casting in AI Controller successful 2"));
-					Turret->ShouldShoot();
+
+					if (bShouldShoot) {
+						Turret->Shoot();
+						bShouldShoot = false;
+					}
+					else {
+						bShouldShoot = true;
+					}
 				}
 			}
 		}

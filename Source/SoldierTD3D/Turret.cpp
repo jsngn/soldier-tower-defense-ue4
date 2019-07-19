@@ -29,7 +29,7 @@ void ATurret::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	bShoot = false;
+	//bShoot = false;
 
 }
 
@@ -38,24 +38,25 @@ void ATurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (bShoot) {
-		UE_LOG(LogTemp, Warning, TEXT("Permission to shoot"));
-		if (AActor * NewProjectile = GetWorld()->SpawnActor(Projectile)) { // Attempts to spawn projectile, checks if successfully spawned the projectile
-			UE_LOG(LogTemp, Warning, TEXT("Spawning projectile attempted"));
-			// Gets current location & rotation of turret's muzzle
-			FVector Loc = DummyMuzzle->GetComponentLocation(); // StaticMeshes[0]
-			FRotator Rot = DummyMuzzle->GetComponentRotation();
+	//if (bShoot) {
+	//	UE_LOG(LogTemp, Warning, TEXT("Permission to shoot"));
+	//	
+	//	if (AActor * NewProjectile = GetWorld()->SpawnActor(Projectile)) { // Attempts to spawn projectile, checks if successfully spawned the projectile
+	//		UE_LOG(LogTemp, Warning, TEXT("Spawning projectile attempted"));
+	//		// Gets current location & rotation of turret's muzzle
+	//		FVector Loc = DummyMuzzle->GetComponentLocation(); // StaticMeshes[0]
+	//		FRotator Rot = DummyMuzzle->GetComponentRotation();
 
-			// Sets the location & rotation as those of the new projectile
-			NewProjectile->SetActorLocation(Loc);
-			NewProjectile->SetActorRotation(Rot);
+	//		// Sets the location & rotation as those of the new projectile
+	//		NewProjectile->SetActorLocation(Loc);
+	//		NewProjectile->SetActorRotation(Rot);
 
-			bShoot = false;
-		}
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("No permission to shoot"));
-	}
+	//		bShoot = false;
+	//	}
+	//}
+	//else {
+	//	UE_LOG(LogTemp, Warning, TEXT("No permission to shoot"));
+	//}
 
 }
 
@@ -66,7 +67,18 @@ void ATurret::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void ATurret::ShouldShoot() {
-	UE_LOG(LogTemp, Warning, TEXT("ShouldShoot accessed"));
-	bShoot = true;
+void ATurret::Shoot() {
+	UE_LOG(LogTemp, Warning, TEXT("Shoot accessed"));
+	//bShoot = true;
+
+	if (AActor* NewProjectile = GetWorld()->SpawnActor(Projectile)) { // Attempts to spawn projectile, checks if successfully spawned the projectile
+		UE_LOG(LogTemp, Warning, TEXT("Spawning projectile attempted"));
+		// Gets current location & rotation of turret's muzzle
+		FVector Loc = DummyMuzzle->GetComponentLocation(); // StaticMeshes[0]
+		FRotator Rot = DummyMuzzle->GetComponentRotation();
+
+		// Sets the location & rotation as those of the new projectile
+		NewProjectile->SetActorLocation(Loc);
+		NewProjectile->SetActorRotation(Rot);
+	}
 }

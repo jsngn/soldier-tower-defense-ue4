@@ -43,10 +43,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Health")
 	float CurrentHealthPercentage;
 
-	// Updates the health percentage using current heath value
-	UFUNCTION()
-	float UpdateCurrentHealthPercentage();
-
 	// Handles receiving damage
 	UFUNCTION()
 	void Attacked(float DamageAmount);

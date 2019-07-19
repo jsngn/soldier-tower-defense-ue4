@@ -26,7 +26,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void ShouldShoot();
+	void Shoot();
 
 	// Select the blueprint/C++ class for the projectile that will be fired from turret
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turret")

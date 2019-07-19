@@ -29,8 +29,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TurretBullet")
 	float Damage;
 
+	UPROPERTY(VisibleAnywhere)
+	class UBoxComponent* DummyCollisionBox;
+
 	UFUNCTION()
-	void OnOverlap(AActor* OverlappedActor, AActor* OtherActor);
+	void OnBoxHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 protected:
 	/** What to do when the projectile explodes. The base version just destroys the projectile. */

@@ -4,6 +4,7 @@
 #include "TurretBullet.h"
 #include "TimerManager.h"
 #include "EnemySoldier.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 ATurretBullet::ATurretBullet()
@@ -11,7 +12,14 @@ ATurretBullet::ATurretBullet()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
-	OnActorBeginOverlap.AddDynamic(this, &ATurretBullet::OnOverlap);
+	//OnActorBeginOverlap.AddDynamic(this, &ATurretBullet::OnOverlap);
+
+	DummyCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("DummyCollisionBox"));
+	DummyCollisionBox->SetSimulatePhysics(true);
+	DummyCollisionBox->SetNotifyRigidBodyCollision(true);
+	DummyCollisionBox->BodyInstance.SetCollisionProfileName("BlockAllDynamic");
+	DummyCollisionBox->OnComponentHit.AddDynamic(this, &ATurretBullet::OnBoxHit);
+	RootComponent = DummyCollisionBox;
 
 }
 
@@ -41,12 +49,15 @@ void ATurretBullet::Explode_Implementation() {
 	Destroy();  // Simply gets destroyed, no graphics
 }
 
-void ATurretBullet::OnOverlap(AActor* OverlappedActor, AActor* OtherActor) {
-	AEnemySoldier* Enemy = Cast<AEnemySoldier>(OtherActor);
-
-	if (Enemy) {
-		Enemy->Attacked(Damage);
-		GetWorldTimerManager().ClearTimer(DummyTimerHandle);
-		Explode();
+void ATurretBullet::OnBoxHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
+	if (OtherActor && (OtherActor != this) && (OtherComp)) {
+		UE_LOG(LogTemp, Warning, TEXT("Hit registered"));
+		AEnemySoldier* Enemy = Cast<AEnemySoldier>(OtherActor);
+		if (Enemy) {
+			UE_LOG(LogTemp, Warning, TEXT("Cast successful"));
+			Enemy->Attacked(Damage);
+			GetWorldTimerManager().ClearTimer(DummyTimerHandle);
+			Explode();
+		}
 	}
 }
