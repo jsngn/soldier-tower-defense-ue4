@@ -36,6 +36,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turret")
 	bool bShoot;
 
+	// Dummy muzzle component to spawn the bullets from
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turret")
 	USceneComponent* DummyMuzzle;
 

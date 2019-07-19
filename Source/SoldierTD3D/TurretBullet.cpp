@@ -11,9 +11,8 @@ ATurretBullet::ATurretBullet()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	
-	//OnActorBeginOverlap.AddDynamic(this, &ATurretBullet::OnOverlap);
 
+	// Make a dummy box to detect hits with enemy, make it the root
 	DummyCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("DummyCollisionBox"));
 	DummyCollisionBox->SetSimulatePhysics(true);
 	DummyCollisionBox->SetNotifyRigidBodyCollision(true);
@@ -28,6 +27,7 @@ void ATurretBullet::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// If bullet doesn't hit any enemy in 2 seconds, just destroy
 	GetWorldTimerManager().SetTimer(DummyTimerHandle, this, &ATurretBullet::Explode, 2.0f);
 	
 }
@@ -44,17 +44,17 @@ void ATurretBullet::Tick(float DeltaTime)
 
 }
 
-// Default implementation of the explode function, if not otherwise implemented in blueprints
+// Simply destroys bullet, no graphics
 void ATurretBullet::Explode_Implementation() {
-	Destroy();  // Simply gets destroyed, no graphics
+	Destroy();
 }
 
 void ATurretBullet::OnBoxHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
 	if (OtherActor && (OtherActor != this) && (OtherComp)) {
-		UE_LOG(LogTemp, Warning, TEXT("Hit registered"));
 		AEnemySoldier* Enemy = Cast<AEnemySoldier>(OtherActor);
+
+		// Damage enemy and explodes if hit enemy
 		if (Enemy) {
-			UE_LOG(LogTemp, Warning, TEXT("Cast successful"));
 			Enemy->Attacked(Damage);
 			GetWorldTimerManager().ClearTimer(DummyTimerHandle);
 			Explode();

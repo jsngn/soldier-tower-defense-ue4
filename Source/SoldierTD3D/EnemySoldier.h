@@ -31,8 +31,11 @@ public:
 	// Moves character to all waypoints sequentially
 	void MoveToWaypoints();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	float Damage;
+
 	// Max health of the enemy
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Health")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float FullHealth;
 
 	// Current health
@@ -46,6 +49,10 @@ public:
 	// Handles receiving damage
 	UFUNCTION()
 	void Attacked(float DamageAmount);
+
+	// Handles dealing damage to tower
+	UFUNCTION()
+	float Attack();
 
 	// C++ implementation just destroys enemy, but do visual effects if necessary
 	UFUNCTION(BlueprintNativeEvent, Category = "Health")

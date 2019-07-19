@@ -60,10 +60,10 @@ void ATurretAIController::Tick(float DeltaTime) {
 	TArray<AActor*>& OutActorsRef = OutActors;
 	TArray<AEnemySoldier*> EnemiesDetected;
 
-	// Gets all enemies in FOV of turret and puts them in OutActors array
+	// Gets all actors in FOV of turret and puts them in OutActors array
 	GetPerceptionComponent()->GetCurrentlyPerceivedActors(*SightConfig->GetSenseImplementation(), OutActorsRef);
 
-	// If any enemy present
+	// If any actor present
 	if (OutActors.Num() > 0) {
 		// Filter to get only enemies
 		for (size_t i = 0; i < OutActors.Num(); i++) {
@@ -81,7 +81,7 @@ void ATurretAIController::Tick(float DeltaTime) {
 		// Sort so the smallest is at 0th position
 		DistanceArray.Sort();
 
-		// Aim turret at the closest enemy
+		// Aim turret at the closest enemy and shoot
 		for (size_t i = 0; i < EnemiesDetected.Num(); i++) {
 			
 			if ((GetPawn()->GetDistanceTo(EnemiesDetected[i])) == DistanceArray[0]) {
@@ -90,6 +90,7 @@ void ATurretAIController::Tick(float DeltaTime) {
 					FVector EnemyLoc = EnemiesDetected[i]->GetActorLocation();
 					this->SetFocalPoint(EnemyLoc);
 
+					// Prevents premature fire caused by SetFocalPoint()
 					if (bShouldShoot) {
 						Turret->Shoot();
 						bShouldShoot = false;

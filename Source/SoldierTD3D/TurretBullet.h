@@ -25,18 +25,20 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TurretBullet")
 	float Speed;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TurretBullet")
 	float Damage;
 
+	// Box for detecting hit with enemy
 	UPROPERTY(VisibleAnywhere)
 	class UBoxComponent* DummyCollisionBox;
 
+	// Function called when bullet hits enemy
 	UFUNCTION()
 	void OnBoxHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 protected:
-	/** What to do when the projectile explodes. The base version just destroys the projectile. */
+	// Explodes bullet, add visual effects if necessary
 	UFUNCTION(BlueprintNativeEvent, Category = "TurretBullet")
 	void Explode();
 
