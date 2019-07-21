@@ -87,6 +87,7 @@ void AEnemySoldier::Attacked(float DamageAmount) {
 }
 
 float AEnemySoldier::Attack() {
+	Death();
 	return Damage;
 }
 
