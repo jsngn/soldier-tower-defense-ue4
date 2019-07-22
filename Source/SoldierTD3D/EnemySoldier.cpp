@@ -30,6 +30,7 @@ void AEnemySoldier::BeginPlay()
 	// Calculates health stats at start of game
 	CurrentHealth = FullHealth;
 	CurrentHealthPercentage = float(CurrentHealth) / float(FullHealth);
+
 }
 
 // Called every frame

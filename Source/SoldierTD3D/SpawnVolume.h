@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "EnemySoldier.h"
 #include "SpawnVolume.generated.h"
 
 UCLASS()
@@ -33,12 +32,29 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Spawning")
-	TSubclassOf<AEnemySoldier> WhatToSpawn;
+	TSubclassOf<class AEnemySoldier> WhatToSpawn;
+
+	FTimerHandle SpawnTimer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
+	float SpawnDelayTime;
 
 private:
 	// Specifies where enemies spawn
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawning", meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* WhereToSpawn;
 
+	//void SpawnEnemyLoop();
+
 	void SpawnEnemy();
+
+	int EnemyToSpawn;
+
+	int EnemySpawned;
+
+	UPROPERTY()
+	TArray<AActor*> ExistingEnemies;
+
+	//bool bShouldSpawn;
+
 };

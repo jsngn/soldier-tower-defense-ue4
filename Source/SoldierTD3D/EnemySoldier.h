@@ -31,7 +31,7 @@ public:
 	// Moves character to all waypoints sequentially
 	void MoveToWaypoints();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
 	float Damage;
 
 	// Max health of the enemy
