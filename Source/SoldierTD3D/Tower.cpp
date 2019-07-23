@@ -68,3 +68,27 @@ void ATower::Collapse_Implementation() {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Some debug message!"));
 	}
 }
+
+bool ATower::SpendTurretMoney() {
+	CurrentMoney -= TurretCost;
+	if (CurrentMoney < 0) {
+		CurrentMoney += TurretCost;
+		UE_LOG(LogTemp, Warning, TEXT("Not enough to build; current money: %f"), CurrentMoney);
+		return false;
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Enough to build; current money: %f"), CurrentMoney);
+		return true;
+	}
+}
+
+void ATower::GainMoney() {
+	CurrentMoney += KillGain;
+	UE_LOG(LogTemp, Warning, TEXT("Money after gained: %f"), CurrentMoney);
+}
+
+FText ATower::GetMoneyText() {
+	FString MoneyString = FString::FromInt(CurrentMoney);
+	FText MoneyText = FText::FromString(MoneyString);
+	return MoneyText;
+}

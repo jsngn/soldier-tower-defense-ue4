@@ -6,6 +6,7 @@
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 #include "Waypoint.h"
+#include "Tower.h"
 
 // Sets default values
 AEnemySoldier::AEnemySoldier()
@@ -93,5 +94,16 @@ float AEnemySoldier::Attack() {
 }
 
 void AEnemySoldier::Death_Implementation() {
+	
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATower::StaticClass(), ExistingTower);
+
+	// More money for tower if enemy killed
+	if (ExistingTower.Num() > 0) {
+		ATower* TowerWithMoney = Cast<ATower>(ExistingTower[0]);
+		if (TowerWithMoney) {
+			TowerWithMoney->GainMoney();
+		}
+	}
+
 	Destroy();
 }

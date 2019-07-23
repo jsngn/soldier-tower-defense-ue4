@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Turret.generated.h"
 
+class ATower;
 UCLASS()
 class SOLDIERTD3D_API ATurret : public ACharacter
 {
@@ -28,16 +29,17 @@ public:
 
 	void Shoot();
 
-	// Select the blueprint/C++ class for the projectile that will be fired from turret
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turret")
-	TSubclassOf<AActor> Projectile;
-
-	// Whether turret should be shooting
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turret")
-	bool bShoot;
-
 	// Dummy muzzle component to spawn the bullets from
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turret")
 	USceneComponent* DummyMuzzle;
+
+private:
+
+	// Select the blueprint/C++ class for the projectile that will be fired from turret
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turret", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> Projectile;
+
+	UPROPERTY()
+	TArray<AActor*> ExistingTower;
 
 };

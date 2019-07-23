@@ -66,4 +66,8 @@ private:
 	// Array of waypoints
 	UPROPERTY()
 	TArray<AActor*> Waypoints;
+
+	UPROPERTY()
+	TArray<AActor*> ExistingTower;
+
 };

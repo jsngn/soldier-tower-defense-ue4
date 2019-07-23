@@ -4,6 +4,8 @@
 #include "Turret.h"
 #include "Engine/World.h"
 #include "Components/SceneComponent.h"
+#include "Tower.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
 // Sets default values
 ATurret::ATurret()
@@ -20,7 +22,22 @@ ATurret::ATurret()
 void ATurret::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATower::StaticClass(), ExistingTower);
 
+	if (ExistingTower.Num() > 0) {
+		ATower* TowerWithMoney = Cast<ATower>(ExistingTower[0]);
+		UE_LOG(LogTemp, Warning, TEXT("Tower selected in BP"));
+		if (TowerWithMoney) {
+			UE_LOG(LogTemp, Warning, TEXT("Tower cast successful"));
+			// Spend money to build turret
+			if (TowerWithMoney->SpendTurretMoney() == false) {
+				UE_LOG(LogTemp, Warning, TEXT("Can check if turret has no more money"));
+				Destroy();
+			}
+			UE_LOG(LogTemp, Warning, TEXT("Some money left; proceed."));
+		}
+	}
 }
 
 // Called every frame
