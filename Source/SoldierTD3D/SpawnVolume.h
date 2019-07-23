@@ -44,8 +44,6 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawning", meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* WhereToSpawn;
 
-	//void SpawnEnemyLoop();
-
 	void SpawnEnemy();
 
 	int EnemyToSpawn;
@@ -54,7 +52,5 @@ private:
 
 	UPROPERTY()
 	TArray<AActor*> ExistingEnemies;
-
-	//bool bShouldSpawn;
 
 };

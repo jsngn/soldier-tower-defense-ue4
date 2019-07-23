@@ -26,7 +26,6 @@ void ASpawnVolume::BeginPlay()
 	EnemyToSpawn = 1;
 	EnemySpawned = 0;
 
-	//bShouldSpawn = false;
 }
 
 // Called every frame
@@ -42,7 +41,6 @@ void ASpawnVolume::Tick(float DeltaTime)
 		UE_LOG(LogTemp, Warning, TEXT("If statement in loop accessed"));
 		EnemyToSpawn = EnemyToSpawn * 2;
 		EnemySpawned = 0;
-		//bShouldSpawn = true;
 
 		SpawnEnemy();
 	}
@@ -52,10 +50,6 @@ FVector ASpawnVolume::GetVolumeCenter() {
 	return WhereToSpawn->Bounds.Origin;
 }
 
-//void ASpawnVolume::SpawnEnemyLoop() {
-//	UE_LOG(LogTemp, Warning, TEXT("Timer loop attempted"));
-//	GetWorldTimerManager().SetTimer(SpawnTimer, this, &ASpawnVolume::SpawnEnemy, SpawnDelayTime, true);
-//}
 
 void ASpawnVolume::SpawnEnemy() {
 	UE_LOG(LogTemp, Warning, TEXT("Spawn function accessed"));
