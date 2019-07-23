@@ -6,7 +6,7 @@
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 #include "Waypoint.h"
-#include "Tower.h"
+#include "PlayerPawn.h"
 
 // Sets default values
 AEnemySoldier::AEnemySoldier()
@@ -83,6 +83,17 @@ void AEnemySoldier::Attacked(float DamageAmount) {
 		// If no health left, kill the enemy  
 		if (CurrentHealth <= 0.f)
 		{
+
+			UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerPawn::StaticClass(), ExistingPlayerPawn);
+
+			// More money for tower if enemy killed
+			if (ExistingPlayerPawn.Num() > 0) {
+				APlayerPawn* PlayerPawn = Cast<APlayerPawn>(ExistingPlayerPawn[0]);
+				if (PlayerPawn) {
+					PlayerPawn->GainMoney();
+				}
+			}
+
 			Death();
 		}
 	}
@@ -94,16 +105,6 @@ float AEnemySoldier::Attack() {
 }
 
 void AEnemySoldier::Death_Implementation() {
-	
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATower::StaticClass(), ExistingTower);
-
-	// More money for tower if enemy killed
-	if (ExistingTower.Num() > 0) {
-		ATower* TowerWithMoney = Cast<ATower>(ExistingTower[0]);
-		if (TowerWithMoney) {
-			TowerWithMoney->GainMoney();
-		}
-	}
-
 	Destroy();
+
 }

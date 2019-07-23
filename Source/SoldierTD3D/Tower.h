@@ -29,15 +29,6 @@ public:
 
 	float DamageReceived;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy")
-	int CurrentMoney;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy")
-	int TurretCost;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy")
-	int KillGain;
-
 	// Box for detecting hit with enemy
 	UPROPERTY(VisibleAnywhere)
 	class UBoxComponent* DummyCollisionBox;
@@ -45,15 +36,6 @@ public:
 	// Function called when bullet hits enemy
 	UFUNCTION()
 	void OnBoxHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-
-	UFUNCTION()
-	bool SpendTurretMoney();
-
-	UFUNCTION()
-	void GainMoney();
-
-	UFUNCTION(BlueprintPure, Category = "Economy")
-	FText GetMoneyText();
 
 protected:
 

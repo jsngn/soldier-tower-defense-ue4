@@ -6,7 +6,6 @@
 #include "GameFramework/Character.h"
 #include "Turret.generated.h"
 
-class ATower;
 UCLASS()
 class SOLDIERTD3D_API ATurret : public ACharacter
 {
@@ -40,6 +39,6 @@ private:
 	TSubclassOf<AActor> Projectile;
 
 	UPROPERTY()
-	TArray<AActor*> ExistingTower;
+	TArray<AActor*> ExistingPlayerPawn;
 
 };

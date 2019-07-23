@@ -68,6 +68,6 @@ private:
 	TArray<AActor*> Waypoints;
 
 	UPROPERTY()
-	TArray<AActor*> ExistingTower;
+	TArray<AActor*> ExistingPlayerPawn;
 
 };
