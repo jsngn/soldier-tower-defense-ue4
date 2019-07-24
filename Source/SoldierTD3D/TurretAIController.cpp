@@ -14,10 +14,10 @@ ATurretAIController::ATurretAIController() {
 	PrimaryActorTick.bCanEverTick = true;
 
 	// Can change these to change turret's perception ability
-	AISightRadius = 410.0f;
+	AISightRadius = 400.0f;
 	AILoseSightRadius = AISightRadius + 1.0f;
 	AISightAge = 7.0f;
-	AIFieldOfView = 47.0f;
+	AIFieldOfView = 50.0f;
 
 	SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("SightConfig"));
 	SetPerceptionComponent(*CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("PerceptionComponent")));

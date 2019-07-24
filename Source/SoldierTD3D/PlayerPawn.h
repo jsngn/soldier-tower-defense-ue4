@@ -19,6 +19,9 @@ public:
 		bool SpendTurretMoney();
 
 	UFUNCTION()
+		bool SpendUpgradeTurretMoney();
+
+	UFUNCTION()
 		void GainMoney();
 
 	UFUNCTION(BlueprintPure, Category = "Economy")
@@ -29,6 +32,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy")
 		int TurretCost;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy")
+		int UpgradeTurretCost;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy")
 		int KillGain;

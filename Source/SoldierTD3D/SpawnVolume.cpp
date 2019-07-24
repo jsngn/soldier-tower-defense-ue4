@@ -42,6 +42,7 @@ void ASpawnVolume::Tick(float DeltaTime)
 		EnemyToSpawn = EnemyToSpawn * 2;
 		EnemySpawned = 0;
 
+		CurrentWaveHealth = CurrentWaveHealth * 1.05; // 5% more health each round
 		SpawnEnemy();
 	}
 }
@@ -66,8 +67,9 @@ void ASpawnVolume::SpawnEnemy() {
 			FVector SpawnLoc = GetVolumeCenter();
 			FRotator SpawnRot = FRotator::ZeroRotator;
 			
-			World->SpawnActor<AEnemySoldier>(WhatToSpawn, SpawnLoc, SpawnRot, SpawnParams);
+			World->SpawnActor<AEnemySoldier>(WhatToSpawn, SpawnLoc, SpawnRot, SpawnParams)->UpdateFullHealth(CurrentWaveHealth);
 			EnemySpawned++;
+
 
 			UE_LOG(LogTemp, Warning, TEXT("Enemy to spawn %i "), EnemyToSpawn);
 			UE_LOG(LogTemp, Warning, TEXT("Enemy spawned %i "), EnemySpawned);

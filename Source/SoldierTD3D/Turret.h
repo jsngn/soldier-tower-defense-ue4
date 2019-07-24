@@ -38,6 +38,8 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turret", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> Projectile;
 
+protected:
+
 	UPROPERTY()
 	TArray<AActor*> ExistingPlayerPawn;
 

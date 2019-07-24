@@ -30,6 +30,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Spawning")
 	FVector GetVolumeCenter();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
+	float CurrentWaveHealth;
+
 protected:
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 	TSubclassOf<class AEnemySoldier> WhatToSpawn;

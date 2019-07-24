@@ -16,6 +16,19 @@ bool APlayerPawn::SpendTurretMoney() {
 	}
 }
 
+bool APlayerPawn::SpendUpgradeTurretMoney() {
+	CurrentMoney -= UpgradeTurretCost;
+	if (CurrentMoney < 0) {
+		CurrentMoney += UpgradeTurretCost;
+		UE_LOG(LogTemp, Warning, TEXT("Not enough to build; current money: %f"), CurrentMoney);
+		return false;
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Enough to build; current money: %f"), CurrentMoney);
+		return true;
+	}
+}
+
 void APlayerPawn::GainMoney() {
 	CurrentMoney += KillGain;
 	UE_LOG(LogTemp, Warning, TEXT("Money after gained: %f"), CurrentMoney);

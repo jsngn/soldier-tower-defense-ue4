@@ -27,10 +27,6 @@ void AEnemySoldier::BeginPlay()
 	// Dsetermines movement
 	CurrentWaypoint = 1;
 	MoveToWaypoints();
-	
-	// Calculates health stats at start of game
-	CurrentHealth = FullHealth;
-	CurrentHealthPercentage = float(CurrentHealth) / float(FullHealth);
 
 }
 
@@ -38,6 +34,8 @@ void AEnemySoldier::BeginPlay()
 void AEnemySoldier::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	UE_LOG(LogTemp, Warning, TEXT("Current wave health: %f"), FullHealth);
 
 }
 
@@ -100,11 +98,17 @@ void AEnemySoldier::Attacked(float DamageAmount) {
 }
 
 float AEnemySoldier::Attack() {
-	Death();
-	return Damage;
+	Death(); // Disappears off screen too
+	return Damage; // Returns damage amount, tower will handle getting hurt
 }
 
 void AEnemySoldier::Death_Implementation() {
 	Destroy();
 
+}
+
+void AEnemySoldier::UpdateFullHealth(float CurrentWaveHealth) {
+	FullHealth = CurrentWaveHealth;
+	CurrentHealth = FullHealth;
+	CurrentHealthPercentage = float(CurrentHealth) / float(FullHealth);
 }

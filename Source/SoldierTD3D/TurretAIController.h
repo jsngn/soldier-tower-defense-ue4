@@ -21,6 +21,7 @@ public:
 	
 	virtual void Tick(float DeltaTime) override;
 
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Turret AI")
 	float AISightRadius;
 

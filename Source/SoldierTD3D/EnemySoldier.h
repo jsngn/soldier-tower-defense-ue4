@@ -35,7 +35,7 @@ public:
 	float Damage;
 
 	// Max health of the enemy
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Health")
 	float FullHealth;
 
 	// Current health
@@ -57,6 +57,9 @@ public:
 	// C++ implementation just destroys enemy, but do visual effects if necessary
 	UFUNCTION(BlueprintNativeEvent, Category = "Health")
 	void Death();
+
+	UFUNCTION()
+	void UpdateFullHealth(float CurrentWaveHealth);
 
 private:
 	// Waypoint which the character is currently at; must be set to 1 initially
