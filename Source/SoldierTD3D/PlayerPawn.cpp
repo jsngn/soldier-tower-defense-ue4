@@ -3,30 +3,15 @@
 
 #include "PlayerPawn.h"
 
-bool APlayerPawn::SpendTurretMoney() {
+void APlayerPawn::SpendTurretMoney() {
 	CurrentMoney -= TurretCost;
-	if (CurrentMoney < 0) {
-		CurrentMoney += TurretCost;
-		UE_LOG(LogTemp, Warning, TEXT("Not enough to build; current money: %f"), CurrentMoney);
-		return false;
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("Enough to build; current money: %f"), CurrentMoney);
-		return true;
-	}
+	
 }
 
-bool APlayerPawn::SpendUpgradeTurretMoney() {
+void APlayerPawn::SpendUpgradeTurretMoney() {
+	UE_LOG(LogTemp, Warning, TEXT("Current money is now: %i "), CurrentMoney);
 	CurrentMoney -= UpgradeTurretCost;
-	if (CurrentMoney < 0) {
-		CurrentMoney += UpgradeTurretCost;
-		UE_LOG(LogTemp, Warning, TEXT("Not enough to build; current money: %f"), CurrentMoney);
-		return false;
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("Enough to build; current money: %f"), CurrentMoney);
-		return true;
-	}
+	UE_LOG(LogTemp, Warning, TEXT("Current money is now: %i "), CurrentMoney);
 }
 
 void APlayerPawn::GainMoney() {
@@ -38,4 +23,18 @@ FText APlayerPawn::GetMoneyText() {
 	FString MoneyString = FString::FromInt(CurrentMoney);
 	FText MoneyText = FText::FromString(MoneyString);
 	return MoneyText;
+}
+
+bool APlayerPawn::IsBuildAffordable() {
+	if (CurrentMoney >= TurretCost) {
+		return true;
+	}
+	return false;
+}
+
+bool APlayerPawn::IsUpgradeAffordable() {
+	if (CurrentMoney >= UpgradeTurretCost) {
+		return true;
+	}
+	return false;
 }

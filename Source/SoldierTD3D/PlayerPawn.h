@@ -16,10 +16,16 @@ class SOLDIERTD3D_API APlayerPawn : public ASpectatorPawn
 	
 public:
 	UFUNCTION()
-		bool SpendTurretMoney();
+		bool IsBuildAffordable();
 
 	UFUNCTION()
-		bool SpendUpgradeTurretMoney();
+		bool IsUpgradeAffordable();
+
+	UFUNCTION()
+		void SpendTurretMoney();
+
+	UFUNCTION()
+		void SpendUpgradeTurretMoney();
 
 	UFUNCTION()
 		void GainMoney();

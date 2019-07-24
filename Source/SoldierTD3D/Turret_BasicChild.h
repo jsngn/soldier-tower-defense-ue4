@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "Turret.h"
-#include "Turret_UpgradedChild.generated.h"
+#include "Turret_BasicChild.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SOLDIERTD3D_API ATurret_UpgradedChild : public ATurret
+class SOLDIERTD3D_API ATurret_BasicChild : public ATurret
 {
 	GENERATED_BODY()
-
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

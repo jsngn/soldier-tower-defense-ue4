@@ -1,12 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Turret_UpgradedChild.h"
+#include "Turret_BasicChild.h"
+
 #include "PlayerPawn.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 
-void ATurret_UpgradedChild::BeginPlay() {
+void ATurret_BasicChild::BeginPlay() {
 
 	AActor::BeginPlay(); // So the basic turret's money check doesn't happen; this turret is more expensive
 
@@ -17,7 +18,7 @@ void ATurret_UpgradedChild::BeginPlay() {
 
 		if (PlayerPawn) {
 			UE_LOG(LogTemp, Warning, TEXT("About to spend upgrade money"));
-			PlayerPawn->SpendUpgradeTurretMoney();
+			PlayerPawn->SpendTurretMoney();
 		}
 	}
 }
