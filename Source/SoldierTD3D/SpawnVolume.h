@@ -32,6 +32,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
 	float CurrentWaveHealth;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "WinLose")
+	int RoundNumber;
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Spawning")

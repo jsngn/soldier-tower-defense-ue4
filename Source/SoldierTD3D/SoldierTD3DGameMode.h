@@ -13,6 +13,23 @@ class ASoldierTD3DGameMode : public AGameModeBase
 
 public:
 	ASoldierTD3DGameMode();
+
+	UFUNCTION(BlueprintCallable, Category = "WinLose")
+	bool IsWin();
+
+	UFUNCTION(BlueprintCallable, Category = "WinLose")
+	bool IsLose();
+
+private:
+	UPROPERTY()
+	TArray<AActor*> ExistingSpawnVolume;
+
+	UPROPERTY()
+	TArray<AActor*> ExistingTower;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WinLose", meta = (AllowPrivateAccess = "true"))
+	int WinRoundNumber;
+
 };
 
 

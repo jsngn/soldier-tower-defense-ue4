@@ -64,7 +64,4 @@ void ATower::OnBoxHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimiti
 void ATower::Collapse_Implementation() {
 	Destroy();
 	
-	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Some debug message!"));
-	}
 }

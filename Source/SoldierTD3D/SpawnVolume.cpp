@@ -25,6 +25,7 @@ void ASpawnVolume::BeginPlay()
 	
 	EnemyToSpawn = 1;
 	EnemySpawned = 0;
+	RoundNumber = 0;
 
 }
 
@@ -41,6 +42,7 @@ void ASpawnVolume::Tick(float DeltaTime)
 		UE_LOG(LogTemp, Warning, TEXT("If statement in loop accessed"));
 		EnemyToSpawn = EnemyToSpawn * 2;
 		EnemySpawned = 0;
+		RoundNumber++;
 
 		CurrentWaveHealth = CurrentWaveHealth * 1.05; // 5% more health each round
 		SpawnEnemy();
