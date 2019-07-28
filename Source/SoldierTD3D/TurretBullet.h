@@ -42,6 +42,9 @@ protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "TurretBullet")
 	void Explode();
 
-	FTimerHandle DummyTimerHandle;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TurretBullet", meta = (AllowPrivateAccess = "true"))
+	float ExplodeDelayTime;
+
+	FTimerHandle ExplodeTimerHandle;
 
 };

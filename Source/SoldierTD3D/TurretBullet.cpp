@@ -28,7 +28,7 @@ void ATurretBullet::BeginPlay()
 	Super::BeginPlay();
 
 	// If bullet doesn't hit any enemy in 2 seconds, just destroy
-	GetWorldTimerManager().SetTimer(DummyTimerHandle, this, &ATurretBullet::Explode, 0.5f);
+	GetWorldTimerManager().SetTimer(ExplodeTimerHandle, this, &ATurretBullet::Explode, ExplodeDelayTime);
 	
 }
 
@@ -56,7 +56,7 @@ void ATurretBullet::OnBoxHit(UPrimitiveComponent* HitComp, AActor* OtherActor, U
 		// Damage enemy and explodes if hit enemy
 		if (Enemy) {
 			Enemy->Attacked(Damage);
-			GetWorldTimerManager().ClearTimer(DummyTimerHandle);
+			GetWorldTimerManager().ClearTimer(ExplodeTimerHandle);
 			Explode();
 		}
 	}
