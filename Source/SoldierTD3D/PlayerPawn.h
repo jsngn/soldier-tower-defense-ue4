@@ -40,6 +40,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Economy")
 	FText GetMoneyText();
 	
+private:
+
 	// Stores current money amount
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy")
 	int CurrentMoney;
