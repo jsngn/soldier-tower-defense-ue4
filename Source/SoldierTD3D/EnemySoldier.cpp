@@ -24,7 +24,7 @@ void AEnemySoldier::BeginPlay()
 	// Fills array of waypoints; this array is not ordered
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWaypoint::StaticClass(), Waypoints);
 	
-	// Dsetermines movement
+	// Initiates movement in defined path
 	CurrentWaypoint = 1;
 	MoveToWaypoints();
 
@@ -34,8 +34,6 @@ void AEnemySoldier::BeginPlay()
 void AEnemySoldier::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	UE_LOG(LogTemp, Warning, TEXT("Current wave health: %f"), FullHealth);
 
 }
 
@@ -74,17 +72,17 @@ void AEnemySoldier::MoveToWaypoints() {
 
 void AEnemySoldier::Attacked(float DamageAmount) {
 
-	if (DamageAmount > 0.f) {
+	if (DamageAmount > 0.0f) {
 		CurrentHealth -= DamageAmount; // Applies damage only if there's any damage
 		CurrentHealthPercentage = float(CurrentHealth) / float(FullHealth); // No need to update this every tick because damage isn't guaranteed every tick
 		
-		// If no health left, kill the enemy  
-		if (CurrentHealth <= 0.f)
+		// If no health left, kill the enemy and reward player
+		if (CurrentHealth <= 0.0f)
 		{
 
 			UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerPawn::StaticClass(), ExistingPlayerPawn);
 
-			// More money for tower if enemy killed
+			// More money for player if enemy killed
 			if (ExistingPlayerPawn.Num() > 0) {
 				APlayerPawn* PlayerPawn = Cast<APlayerPawn>(ExistingPlayerPawn[0]);
 				if (PlayerPawn) {
