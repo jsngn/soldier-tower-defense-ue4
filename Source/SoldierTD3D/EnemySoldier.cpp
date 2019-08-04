@@ -68,6 +68,7 @@ void AEnemySoldier::MoveToWaypoints() {
 			}
 		}
 	}
+	
 }
 
 void AEnemySoldier::Attacked(float DamageAmount) {
@@ -93,11 +94,13 @@ void AEnemySoldier::Attacked(float DamageAmount) {
 			Death();
 		}
 	}
+	
 }
 
 float AEnemySoldier::Attack_Implementation() {
 	Destroy(); // Disappears off screen too
 	return Damage; // Returns damage amount, tower will handle getting hurt
+	
 }
 
 void AEnemySoldier::Death_Implementation() {
@@ -109,4 +112,5 @@ void AEnemySoldier::UpdateFullHealth(float CurrentWaveHealth) {
 	FullHealth = CurrentWaveHealth;
 	CurrentHealth = FullHealth;
 	CurrentHealthPercentage = float(CurrentHealth) / float(FullHealth);
+	
 }
