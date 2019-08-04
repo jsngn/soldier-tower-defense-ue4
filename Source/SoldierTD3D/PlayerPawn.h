@@ -43,18 +43,18 @@ public:
 private:
 
 	// Stores current money amount
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy", meta = (AllowPrivateAccess = "true"))
 	int CurrentMoney;
 	
 	// Stores the cost for building 1 turret
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy", meta = (AllowPrivateAccess = "true"))
 	int TurretCost;
 	
 	// Stores the cost for upgrading 1 turret
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy", meta = (AllowPrivateAccess = "true"))
 	int UpgradeTurretCost;
 	
 	// Amount of money gained from killing 1 enemy
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Economy", meta = (AllowPrivateAccess = "true"))
 	int KillGain;
 };
