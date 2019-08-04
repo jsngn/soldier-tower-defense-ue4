@@ -97,8 +97,8 @@ void AEnemySoldier::Attacked(float DamageAmount) {
 	}
 }
 
-float AEnemySoldier::Attack() {
-	Death(); // Disappears off screen too
+float AEnemySoldier::Attack_Implementation() {
+	Destroy(); // Disappears off screen too
 	return Damage; // Returns damage amount, tower will handle getting hurt
 }
 

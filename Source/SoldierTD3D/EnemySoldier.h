@@ -51,7 +51,7 @@ public:
 	void Attacked(float DamageAmount);
 
 	// Handles dealing damage to tower
-	UFUNCTION()
+	UFUNCTION(BlueprintNativeEvent, Category = "Attack")
 	float Attack();
 
 	// C++ implementation just destroys enemy, but do visual effects if necessary
