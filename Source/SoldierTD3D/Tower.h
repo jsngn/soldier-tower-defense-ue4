@@ -38,7 +38,7 @@ public:
 protected:
 	
 	// C++ function just calls Destroy(); can add more in blueprints
-	UFUNCTION(BlueprintNativeEvent, Category = "TurretBullet")
+	UFUNCTION(BlueprintNativeEvent, Category = "Health")
 	void Collapse();
 	
 	// Amount of damage received from enemy
