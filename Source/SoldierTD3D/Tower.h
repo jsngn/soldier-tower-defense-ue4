@@ -15,7 +15,7 @@ public:
 	// Sets default values for this actor's properties
 	ATower();
 
-	// Max health of the enemy
+	// Max health of the tower
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float FullHealth;
 
@@ -27,20 +27,22 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Health")
 	float CurrentHealthPercentage;
 
-	float DamageReceived;
-
 	// Box for detecting hit with enemy
 	UPROPERTY(VisibleAnywhere)
 	class UBoxComponent* DummyCollisionBox;
 
-	// Function called when bullet hits enemy
+	// Function called when enemy hits tower
 	UFUNCTION()
 	void OnBoxHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 protected:
-
+	
+	// C++ function just calls Destroy(); can add more in blueprints
 	UFUNCTION(BlueprintNativeEvent, Category = "TurretBullet")
 	void Collapse();
+	
+	// Amount of damage received from enemy
+	float DamageReceived;
 
 protected:
 	// Called when the game starts or when spawned
