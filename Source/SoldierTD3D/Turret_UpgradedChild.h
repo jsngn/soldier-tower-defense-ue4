@@ -15,7 +15,7 @@ class SOLDIERTD3D_API ATurret_UpgradedChild : public ATurret
 	GENERATED_BODY()
 
 protected:
-	// Called when the game starts or when spawned
+	// Override so we can spend money appropriately for this upgraded turret
 	virtual void BeginPlay() override;
 
 };

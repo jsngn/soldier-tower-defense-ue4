@@ -43,16 +43,15 @@ void ATower::OnBoxHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimiti
 	if (OtherActor && (OtherActor != this) && (OtherComp)) {
 		AEnemySoldier* Enemy = Cast<AEnemySoldier>(OtherActor);
 
-		// Damage enemy and explodes if hit enemy
 		if (Enemy) {
-			DamageReceived = Enemy->Attack();
+			DamageReceived = Enemy->Attack();  // Stores how much damage received from enemy
 			
-			if (DamageReceived > 0.f) {
+			if (DamageReceived > 0.0f) {
 				CurrentHealth -= DamageReceived; // Applies damage only if there's any damage
 				CurrentHealthPercentage = float(CurrentHealth) / float(FullHealth); // No need to update this every tick because damage isn't guaranteed every tick
 
-				// If no health left, kill the enemy  
-				if (CurrentHealth <= 0.f)
+				// If no health left, tower collapses 
+				if (CurrentHealth <= 0.0f)
 				{
 					Collapse();
 				}
