@@ -39,8 +39,7 @@ private:
 	TSubclassOf<AActor> Projectile;
 
 protected:
-	
-	// Array of player pawns (should have only 1 element but is array for game logic's purpose)
+
 	UPROPERTY()
 	TArray<AActor*> ExistingPlayerPawn;
 

@@ -11,9 +11,9 @@ bool UTurretBuildWidget::IsBuildable() {
 	if (ExistingPlayerPawn.Num() > 0) {
 		APlayerPawn* PlayerPawn = Cast<APlayerPawn>(ExistingPlayerPawn[0]);
 		if (PlayerPawn) {
-			return PlayerPawn->IsBuildAffordable();  // Calls player pawn's function to see if it has enough money for build
+			return PlayerPawn->IsBuildAffordable();
 		}
 	}
 
-	return false;  // Fall back case (if no player pawn exists then you shouldn't be able to build anything)
+	return false;
 }

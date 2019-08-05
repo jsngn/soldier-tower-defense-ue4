@@ -31,6 +31,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Turret AI")
 	float AISightAge;
 
+	// 180.0f makes it look all way round
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Turret AI")
 	float AIFieldOfView;
 

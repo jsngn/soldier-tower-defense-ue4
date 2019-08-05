@@ -24,46 +24,38 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Returns the box component specifying where to spawn
-	FORCEINLINE class UBoxComponent* GetSpawnBox() const { return SpawnBox; }
+	FORCEINLINE class UBoxComponent* GetWhereToSpawn() const { return WhereToSpawn; }
 
 	// Returns center of box
 	UFUNCTION(BlueprintPure, Category = "Spawning")
 	FVector GetVolumeCenter();
-	
-	// Health of enemy in current wave
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
 	float CurrentWaveHealth;
 	
-	// Current round number
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "WinLose")
 	int RoundNumber;
 
 protected:
-	// Specifies the enemy to spawn
 	UPROPERTY(EditAnywhere, Category = "Spawning")
-	TSubclassOf<class AEnemySoldier> SpawnEnemySoldier;
-	
-	// Dummy timer handle for spawning
+	TSubclassOf<class AEnemySoldier> WhatToSpawn;
+
 	FTimerHandle SpawnTimer;
-	
-	// Time interval between each enemy spawn within around and between 2 rounds
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
 	float SpawnDelayTime;
 
 private:
 	// Specifies where enemies spawn
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawning", meta = (AllowPrivateAccess = "true"))
-	class UBoxComponent* SpawnBox;
-	
+	class UBoxComponent* WhereToSpawn;
+
 	void SpawnEnemy();
-	
-	// Number of enemies that need to be spawned in total for the round
+
 	int EnemyToSpawn;
-	
-	// Number of enemies that have been spawned for the round
+
 	int EnemySpawned;
-	
-	// Array of enemies on map right now
+
 	UPROPERTY()
 	TArray<AActor*> ExistingEnemies;
 

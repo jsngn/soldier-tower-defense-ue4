@@ -9,7 +9,7 @@
 
 void ATurret_BasicChild::BeginPlay() {
 
-	Super::BeginPlay();
+	AActor::BeginPlay(); // So the basic turret's money check doesn't happen; this turret is more expensive
 
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerPawn::StaticClass(), ExistingPlayerPawn);
 
@@ -17,6 +17,7 @@ void ATurret_BasicChild::BeginPlay() {
 		APlayerPawn* PlayerPawn = Cast<APlayerPawn>(ExistingPlayerPawn[0]);
 
 		if (PlayerPawn) {
+			UE_LOG(LogTemp, Warning, TEXT("About to spend upgrade money"));
 			PlayerPawn->SpendTurretMoney();
 		}
 	}

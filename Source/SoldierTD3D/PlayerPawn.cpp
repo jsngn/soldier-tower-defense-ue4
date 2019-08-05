@@ -9,29 +9,32 @@ void APlayerPawn::SpendTurretMoney() {
 }
 
 void APlayerPawn::SpendUpgradeTurretMoney() {
+	UE_LOG(LogTemp, Warning, TEXT("Current money is now: %i "), CurrentMoney);
 	CurrentMoney -= UpgradeTurretCost;
-		
+	UE_LOG(LogTemp, Warning, TEXT("Current money is now: %i "), CurrentMoney);
 }
 
 void APlayerPawn::GainMoney() {
 	CurrentMoney += KillGain;
-
+	UE_LOG(LogTemp, Warning, TEXT("Money after gained: %f"), CurrentMoney);
 }
 
 FText APlayerPawn::GetMoneyText() {
-	// Convert to string first, then text
 	FString MoneyString = FString::FromInt(CurrentMoney);
 	FText MoneyText = FText::FromString(MoneyString);
 	return MoneyText;
-	
 }
 
 bool APlayerPawn::IsBuildAffordable() {
-	return CurrentMoney >= TurretCost;
-	
+	if (CurrentMoney >= TurretCost) {
+		return true;
+	}
+	return false;
 }
 
 bool APlayerPawn::IsUpgradeAffordable() {
-	return CurrentMoney >= UpgradeTurretCost;
-	
+	if (CurrentMoney >= UpgradeTurretCost) {
+		return true;
+	}
+	return false;
 }

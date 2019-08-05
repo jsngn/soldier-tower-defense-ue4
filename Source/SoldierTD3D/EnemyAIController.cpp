@@ -13,5 +13,4 @@ void AEnemyAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFoll
 	if (EnemySoldier) {
 		EnemySoldier->MoveToWaypoints();
 	}
-	
 }

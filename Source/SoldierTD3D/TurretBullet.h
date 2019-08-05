@@ -22,7 +22,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TurretBullet")
 	float Speed;
 	
@@ -41,12 +41,10 @@ protected:
 	// Explodes bullet, add visual effects if necessary
 	UFUNCTION(BlueprintNativeEvent, Category = "TurretBullet")
 	void Explode();
-	
-	// Delay time before bullet explodes
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TurretBullet", meta = (AllowPrivateAccess = "true"))
 	float ExplodeDelayTime;
-	
-	// Dummy timer handle for explosion
+
 	FTimerHandle ExplodeTimerHandle;
 
 };
