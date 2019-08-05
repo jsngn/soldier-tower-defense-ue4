@@ -15,12 +15,14 @@ class SOLDIERTD3D_API UTurretBuildWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-
+	
+	// Checks if player has enough money to build 1 turret
 	UFUNCTION(BlueprintCallable)
 	bool IsBuildable();
 
 protected:
-
+	
+	// Array of existing player pawns (should have only 1 element, but is array for game logic's purpose)
 	UPROPERTY()
 	TArray<AActor*> ExistingPlayerPawn;
 

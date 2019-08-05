@@ -28,9 +28,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	// Moves character to all waypoints sequentially
+	// Moves character to all waypoints sequentially to make enemy move in defined path
 	void MoveToWaypoints();
-
+	
+	// Amount of damage dealt by 1 enemy to tower
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
 	float Damage;
 
@@ -54,10 +55,11 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category = "Attack")
 	float Attack();
 
-	// C++ implementation just destroys enemy, but do visual effects if necessary
+	// C++ implementation just destroys enemy, but do special effects if necessary
 	UFUNCTION(BlueprintNativeEvent, Category = "Health")
 	void Death();
-
+	
+	// Updates enemy's max health for the current round
 	UFUNCTION()
 	void UpdateFullHealth(float CurrentWaveHealth);
 
@@ -69,7 +71,8 @@ private:
 	// Array of waypoints
 	UPROPERTY()
 	TArray<AActor*> Waypoints;
-
+	
+	// Array of player pawn (should contain 1 element only, but is array for purpose of game logic)
 	UPROPERTY()
 	TArray<AActor*> ExistingPlayerPawn;
 

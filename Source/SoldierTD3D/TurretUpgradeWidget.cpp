@@ -11,9 +11,9 @@ bool UTurretUpgradeWidget::IsUpgradable() {
 	if (ExistingPlayerPawn.Num() > 0) {
 		APlayerPawn* PlayerPawn = Cast<APlayerPawn>(ExistingPlayerPawn[0]);
 		if (PlayerPawn) {
-			return PlayerPawn->IsUpgradeAffordable();
+			return PlayerPawn->IsUpgradeAffordable();  // Call's player pawn's function to check affordability
 		}
 	}
 
-	return false;
+	return false;  // Fallback case (shouldn't be able to upgrade anything if no player pawn)
 }
