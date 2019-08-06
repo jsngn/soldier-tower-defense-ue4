@@ -3,7 +3,7 @@ Soldier Tower Defense 3D: A 3D Tower Defense Game powered by UE 4
 
 Personal & learning project made by https://github.com/jsngn (dev) and https://github.com/sethks21 (designer)
 
-![Game Demo](https://gfycat.com/unsteadywaterykingfisher)
+![Game Demo](https://imgur.com/a/J2EdTxf)
 
 Link to demo on Streamable (with sounds): https://streamable.com/gkpkh
 
